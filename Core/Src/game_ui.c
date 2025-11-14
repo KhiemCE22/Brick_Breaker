@@ -222,9 +222,16 @@ static void draw_bricks(const Brick bricks[BRICK_ROWS][BRICK_COLS]) {
                         lcd_draw_circle(brick->x + brick->width / 2, brick->y + brick->height / 2, WHITE, 6, 0);
                         break;
                     case BRICK_SPECIAL_PLUS:
-                        // Draw a black plus sign inside the brick
-                        lcd_draw_line(brick->x + brick->width / 2, brick->y + 3, brick->x + brick->width / 2, brick->y + brick->height - 3, BLACK);
-                        lcd_draw_line(brick->x + 3, brick->y + brick->height / 2, brick->x + brick->width - 3, brick->y + brick->height / 2, BLACK);
+                        // Draw a black plus sign inside the brick, bigger and balanced
+                        {
+                            int cross_half_len = (brick->height / 2) - 2; // Makes a 12px cross for 16px height
+                            int center_x = brick->x + brick->width / 2;
+                            int center_y = brick->y + brick->height / 2;
+                            // Vertical line
+                            lcd_draw_line(center_x, center_y - cross_half_len, center_x, center_y + cross_half_len, BLACK);
+                            // Horizontal line
+                            lcd_draw_line(center_x - cross_half_len, center_y, center_x + cross_half_len, center_y, BLACK);
+                        }
                         break;
                     case BRICK_SPECIAL_NONE:
                     default:

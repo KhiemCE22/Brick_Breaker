@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00030064  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00012ded  00000000  00000000  00030094  2**0
+ 13 .debug_info   00012e21  00000000  00000000  00030094  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00003503  00000000  00000000  00042e81  2**0
+ 14 .debug_abbrev 00003503  00000000  00000000  00042eb5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00001288  00000000  00000000  00046388  2**3
+ 15 .debug_aranges 00001288  00000000  00000000  000463b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000e3c  00000000  00000000  00047610  2**0
+ 16 .debug_rnglists 00000e3c  00000000  00000000  00047640  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00023c79  00000000  00000000  0004844c  2**0
+ 17 .debug_macro  00023c79  00000000  00000000  0004847c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   000188d0  00000000  00000000  0006c0c5  2**0
+ 18 .debug_line   000188b0  00000000  00000000  0006c0f5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d088b  00000000  00000000  00084995  2**0
+ 19 .debug_str    000d08ac  00000000  00000000  000849a5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00155220  2**0
+ 20 .comment      00000043  00000000  00000000  00155251  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000050b4  00000000  00000000  00155264  2**2
+ 21 .debug_frame  000050b4  00000000  00000000  00155294  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000072  00000000  00000000  0015a318  2**0
+ 22 .debug_line_str 00000072  00000000  00000000  0015a348  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1400,12 +1400,12 @@ void game_draw_initial_scene(const GameState *state) {
  8000bd6:	687b      	ldr	r3, [r7, #4]
  8000bd8:	f503 73da 	add.w	r3, r3, #436	@ 0x1b4
  8000bdc:	4618      	mov	r0, r3
- 8000bde:	f000 fa0a 	bl	8000ff6 <draw_paddle>
+ 8000bde:	f000 fa09 	bl	8000ff4 <draw_paddle>
     draw_ball(&state->ball);
  8000be2:	687b      	ldr	r3, [r7, #4]
  8000be4:	f503 73d2 	add.w	r3, r3, #420	@ 0x1a4
  8000be8:	4618      	mov	r0, r3
- 8000bea:	f000 fa23 	bl	8001034 <draw_ball>
+ 8000bea:	f000 fa22 	bl	8001032 <draw_ball>
     if (state->show_potentiometer_prompt) {
  8000bee:	687b      	ldr	r3, [r7, #4]
  8000bf0:	f893 31c6 	ldrb.w	r3, [r3, #454]	@ 0x1c6
@@ -1476,12 +1476,12 @@ void game_update_screen(GameState *state) {
  8000c66:	687b      	ldr	r3, [r7, #4]
  8000c68:	f503 73da 	add.w	r3, r3, #436	@ 0x1b4
  8000c6c:	4618      	mov	r0, r3
- 8000c6e:	f000 f9c2 	bl	8000ff6 <draw_paddle>
+ 8000c6e:	f000 f9c1 	bl	8000ff4 <draw_paddle>
     draw_ball(&state->ball);
  8000c72:	687b      	ldr	r3, [r7, #4]
  8000c74:	f503 73d2 	add.w	r3, r3, #420	@ 0x1a4
  8000c78:	4618      	mov	r0, r3
- 8000c7a:	f000 f9db 	bl	8001034 <draw_ball>
+ 8000c7a:	f000 f9da 	bl	8001032 <draw_ball>
 
     // Update previous positions for the next frame
     state->paddle.prev_x = state->paddle.x;
@@ -1788,54 +1788,54 @@ static void draw_game_border(void) {
 
 static void draw_bricks(const Brick bricks[BRICK_ROWS][BRICK_COLS]) {
  8000ea8:	b590      	push	{r4, r7, lr}
- 8000eaa:	b089      	sub	sp, #36	@ 0x24
+ 8000eaa:	b08b      	sub	sp, #44	@ 0x2c
  8000eac:	af02      	add	r7, sp, #8
  8000eae:	6078      	str	r0, [r7, #4]
     for (int row = 0; row < BRICK_ROWS; row++) {
  8000eb0:	2300      	movs	r3, #0
- 8000eb2:	617b      	str	r3, [r7, #20]
- 8000eb4:	e096      	b.n	8000fe4 <draw_bricks+0x13c>
+ 8000eb2:	61fb      	str	r3, [r7, #28]
+ 8000eb4:	e095      	b.n	8000fe2 <draw_bricks+0x13a>
         for (int col = 0; col < BRICK_COLS; col++) {
  8000eb6:	2300      	movs	r3, #0
- 8000eb8:	613b      	str	r3, [r7, #16]
- 8000eba:	e08c      	b.n	8000fd6 <draw_bricks+0x12e>
+ 8000eb8:	61bb      	str	r3, [r7, #24]
+ 8000eba:	e08b      	b.n	8000fd4 <draw_bricks+0x12c>
             const Brick *brick = &bricks[row][col];
- 8000ebc:	697b      	ldr	r3, [r7, #20]
+ 8000ebc:	69fb      	ldr	r3, [r7, #28]
  8000ebe:	2254      	movs	r2, #84	@ 0x54
  8000ec0:	fb02 f303 	mul.w	r3, r2, r3
  8000ec4:	687a      	ldr	r2, [r7, #4]
  8000ec6:	18d1      	adds	r1, r2, r3
- 8000ec8:	693a      	ldr	r2, [r7, #16]
+ 8000ec8:	69ba      	ldr	r2, [r7, #24]
  8000eca:	4613      	mov	r3, r2
  8000ecc:	005b      	lsls	r3, r3, #1
  8000ece:	4413      	add	r3, r2
  8000ed0:	009b      	lsls	r3, r3, #2
  8000ed2:	440b      	add	r3, r1
- 8000ed4:	60fb      	str	r3, [r7, #12]
+ 8000ed4:	617b      	str	r3, [r7, #20]
             if (brick->state == BRICK_STATE_ACTIVE) {
- 8000ed6:	68fb      	ldr	r3, [r7, #12]
+ 8000ed6:	697b      	ldr	r3, [r7, #20]
  8000ed8:	7a9b      	ldrb	r3, [r3, #10]
  8000eda:	2b00      	cmp	r3, #0
- 8000edc:	d178      	bne.n	8000fd0 <draw_bricks+0x128>
+ 8000edc:	d177      	bne.n	8000fce <draw_bricks+0x126>
                 // Draw the main brick body
                 lcd_fill(brick->x, brick->y, brick->x + brick->width, brick->y + brick->height, brick->color);
- 8000ede:	68fb      	ldr	r3, [r7, #12]
+ 8000ede:	697b      	ldr	r3, [r7, #20]
  8000ee0:	8818      	ldrh	r0, [r3, #0]
- 8000ee2:	68fb      	ldr	r3, [r7, #12]
+ 8000ee2:	697b      	ldr	r3, [r7, #20]
  8000ee4:	8859      	ldrh	r1, [r3, #2]
- 8000ee6:	68fb      	ldr	r3, [r7, #12]
+ 8000ee6:	697b      	ldr	r3, [r7, #20]
  8000ee8:	881a      	ldrh	r2, [r3, #0]
- 8000eea:	68fb      	ldr	r3, [r7, #12]
+ 8000eea:	697b      	ldr	r3, [r7, #20]
  8000eec:	889b      	ldrh	r3, [r3, #4]
  8000eee:	4413      	add	r3, r2
  8000ef0:	b29c      	uxth	r4, r3
- 8000ef2:	68fb      	ldr	r3, [r7, #12]
+ 8000ef2:	697b      	ldr	r3, [r7, #20]
  8000ef4:	885a      	ldrh	r2, [r3, #2]
- 8000ef6:	68fb      	ldr	r3, [r7, #12]
+ 8000ef6:	697b      	ldr	r3, [r7, #20]
  8000ef8:	88db      	ldrh	r3, [r3, #6]
  8000efa:	4413      	add	r3, r2
  8000efc:	b29a      	uxth	r2, r3
- 8000efe:	68fb      	ldr	r3, [r7, #12]
+ 8000efe:	697b      	ldr	r3, [r7, #20]
  8000f00:	891b      	ldrh	r3, [r3, #8]
  8000f02:	9300      	str	r3, [sp, #0]
  8000f04:	4613      	mov	r3, r2
@@ -1844,32 +1844,32 @@ static void draw_bricks(const Brick bricks[BRICK_ROWS][BRICK_COLS]) {
 
                 // Draw special features if any
                 switch (brick->special) {
- 8000f0c:	68fb      	ldr	r3, [r7, #12]
+ 8000f0c:	697b      	ldr	r3, [r7, #20]
  8000f0e:	7adb      	ldrb	r3, [r3, #11]
  8000f10:	2b01      	cmp	r3, #1
  8000f12:	d002      	beq.n	8000f1a <draw_bricks+0x72>
  8000f14:	2b02      	cmp	r3, #2
  8000f16:	d018      	beq.n	8000f4a <draw_bricks+0xa2>
-                        lcd_draw_line(brick->x + 3, brick->y + brick->height / 2, brick->x + brick->width - 3, brick->y + brick->height / 2, BLACK);
+                        }
                         break;
                     case BRICK_SPECIAL_NONE:
                     default:
                         // No special feature
                         break;
- 8000f18:	e05a      	b.n	8000fd0 <draw_bricks+0x128>
+ 8000f18:	e059      	b.n	8000fce <draw_bricks+0x126>
                         lcd_draw_circle(brick->x + brick->width / 2, brick->y + brick->height / 2, WHITE, 6, 0);
- 8000f1a:	68fb      	ldr	r3, [r7, #12]
+ 8000f1a:	697b      	ldr	r3, [r7, #20]
  8000f1c:	881b      	ldrh	r3, [r3, #0]
  8000f1e:	461a      	mov	r2, r3
- 8000f20:	68fb      	ldr	r3, [r7, #12]
+ 8000f20:	697b      	ldr	r3, [r7, #20]
  8000f22:	889b      	ldrh	r3, [r3, #4]
  8000f24:	085b      	lsrs	r3, r3, #1
  8000f26:	b29b      	uxth	r3, r3
  8000f28:	18d0      	adds	r0, r2, r3
- 8000f2a:	68fb      	ldr	r3, [r7, #12]
+ 8000f2a:	697b      	ldr	r3, [r7, #20]
  8000f2c:	885b      	ldrh	r3, [r3, #2]
  8000f2e:	461a      	mov	r2, r3
- 8000f30:	68fb      	ldr	r3, [r7, #12]
+ 8000f30:	697b      	ldr	r3, [r7, #20]
  8000f32:	88db      	ldrh	r3, [r3, #6]
  8000f34:	085b      	lsrs	r3, r3, #1
  8000f36:	b29b      	uxth	r3, r3
@@ -1880,163 +1880,166 @@ static void draw_bricks(const Brick bricks[BRICK_ROWS][BRICK_COLS]) {
  8000f40:	f64f 72ff 	movw	r2, #65535	@ 0xffff
  8000f44:	f000 feeb 	bl	8001d1e <lcd_draw_circle>
                         break;
- 8000f48:	e042      	b.n	8000fd0 <draw_bricks+0x128>
-                        lcd_draw_line(brick->x + brick->width / 2, brick->y + 3, brick->x + brick->width / 2, brick->y + brick->height - 3, BLACK);
- 8000f4a:	68fb      	ldr	r3, [r7, #12]
- 8000f4c:	881a      	ldrh	r2, [r3, #0]
- 8000f4e:	68fb      	ldr	r3, [r7, #12]
- 8000f50:	889b      	ldrh	r3, [r3, #4]
- 8000f52:	085b      	lsrs	r3, r3, #1
- 8000f54:	b29b      	uxth	r3, r3
- 8000f56:	4413      	add	r3, r2
- 8000f58:	b298      	uxth	r0, r3
- 8000f5a:	68fb      	ldr	r3, [r7, #12]
- 8000f5c:	885b      	ldrh	r3, [r3, #2]
- 8000f5e:	3303      	adds	r3, #3
- 8000f60:	b299      	uxth	r1, r3
- 8000f62:	68fb      	ldr	r3, [r7, #12]
- 8000f64:	881a      	ldrh	r2, [r3, #0]
- 8000f66:	68fb      	ldr	r3, [r7, #12]
- 8000f68:	889b      	ldrh	r3, [r3, #4]
- 8000f6a:	085b      	lsrs	r3, r3, #1
- 8000f6c:	b29b      	uxth	r3, r3
- 8000f6e:	4413      	add	r3, r2
- 8000f70:	b29c      	uxth	r4, r3
- 8000f72:	68fb      	ldr	r3, [r7, #12]
- 8000f74:	885a      	ldrh	r2, [r3, #2]
- 8000f76:	68fb      	ldr	r3, [r7, #12]
- 8000f78:	88db      	ldrh	r3, [r3, #6]
- 8000f7a:	4413      	add	r3, r2
- 8000f7c:	b29b      	uxth	r3, r3
- 8000f7e:	3b03      	subs	r3, #3
- 8000f80:	b29b      	uxth	r3, r3
- 8000f82:	2200      	movs	r2, #0
- 8000f84:	9200      	str	r2, [sp, #0]
- 8000f86:	4622      	mov	r2, r4
- 8000f88:	f000 fad9 	bl	800153e <lcd_draw_line>
-                        lcd_draw_line(brick->x + 3, brick->y + brick->height / 2, brick->x + brick->width - 3, brick->y + brick->height / 2, BLACK);
- 8000f8c:	68fb      	ldr	r3, [r7, #12]
- 8000f8e:	881b      	ldrh	r3, [r3, #0]
- 8000f90:	3303      	adds	r3, #3
- 8000f92:	b298      	uxth	r0, r3
- 8000f94:	68fb      	ldr	r3, [r7, #12]
- 8000f96:	885a      	ldrh	r2, [r3, #2]
- 8000f98:	68fb      	ldr	r3, [r7, #12]
- 8000f9a:	88db      	ldrh	r3, [r3, #6]
- 8000f9c:	085b      	lsrs	r3, r3, #1
- 8000f9e:	b29b      	uxth	r3, r3
- 8000fa0:	4413      	add	r3, r2
- 8000fa2:	b299      	uxth	r1, r3
+ 8000f48:	e041      	b.n	8000fce <draw_bricks+0x126>
+                            int cross_half_len = (brick->height / 2) - 2; // Makes a 12px cross for 16px height
+ 8000f4a:	697b      	ldr	r3, [r7, #20]
+ 8000f4c:	88db      	ldrh	r3, [r3, #6]
+ 8000f4e:	085b      	lsrs	r3, r3, #1
+ 8000f50:	b29b      	uxth	r3, r3
+ 8000f52:	3b02      	subs	r3, #2
+ 8000f54:	613b      	str	r3, [r7, #16]
+                            int center_x = brick->x + brick->width / 2;
+ 8000f56:	697b      	ldr	r3, [r7, #20]
+ 8000f58:	881b      	ldrh	r3, [r3, #0]
+ 8000f5a:	461a      	mov	r2, r3
+ 8000f5c:	697b      	ldr	r3, [r7, #20]
+ 8000f5e:	889b      	ldrh	r3, [r3, #4]
+ 8000f60:	085b      	lsrs	r3, r3, #1
+ 8000f62:	b29b      	uxth	r3, r3
+ 8000f64:	4413      	add	r3, r2
+ 8000f66:	60fb      	str	r3, [r7, #12]
+                            int center_y = brick->y + brick->height / 2;
+ 8000f68:	697b      	ldr	r3, [r7, #20]
+ 8000f6a:	885b      	ldrh	r3, [r3, #2]
+ 8000f6c:	461a      	mov	r2, r3
+ 8000f6e:	697b      	ldr	r3, [r7, #20]
+ 8000f70:	88db      	ldrh	r3, [r3, #6]
+ 8000f72:	085b      	lsrs	r3, r3, #1
+ 8000f74:	b29b      	uxth	r3, r3
+ 8000f76:	4413      	add	r3, r2
+ 8000f78:	60bb      	str	r3, [r7, #8]
+                            lcd_draw_line(center_x, center_y - cross_half_len, center_x, center_y + cross_half_len, BLACK);
+ 8000f7a:	68fb      	ldr	r3, [r7, #12]
+ 8000f7c:	b298      	uxth	r0, r3
+ 8000f7e:	68bb      	ldr	r3, [r7, #8]
+ 8000f80:	b29a      	uxth	r2, r3
+ 8000f82:	693b      	ldr	r3, [r7, #16]
+ 8000f84:	b29b      	uxth	r3, r3
+ 8000f86:	1ad3      	subs	r3, r2, r3
+ 8000f88:	b299      	uxth	r1, r3
+ 8000f8a:	68fb      	ldr	r3, [r7, #12]
+ 8000f8c:	b29c      	uxth	r4, r3
+ 8000f8e:	68bb      	ldr	r3, [r7, #8]
+ 8000f90:	b29a      	uxth	r2, r3
+ 8000f92:	693b      	ldr	r3, [r7, #16]
+ 8000f94:	b29b      	uxth	r3, r3
+ 8000f96:	4413      	add	r3, r2
+ 8000f98:	b29b      	uxth	r3, r3
+ 8000f9a:	2200      	movs	r2, #0
+ 8000f9c:	9200      	str	r2, [sp, #0]
+ 8000f9e:	4622      	mov	r2, r4
+ 8000fa0:	f000 facd 	bl	800153e <lcd_draw_line>
+                            lcd_draw_line(center_x - cross_half_len, center_y, center_x + cross_half_len, center_y, BLACK);
  8000fa4:	68fb      	ldr	r3, [r7, #12]
- 8000fa6:	881a      	ldrh	r2, [r3, #0]
- 8000fa8:	68fb      	ldr	r3, [r7, #12]
- 8000faa:	889b      	ldrh	r3, [r3, #4]
- 8000fac:	4413      	add	r3, r2
- 8000fae:	b29b      	uxth	r3, r3
- 8000fb0:	3b03      	subs	r3, #3
- 8000fb2:	b29c      	uxth	r4, r3
+ 8000fa6:	b29a      	uxth	r2, r3
+ 8000fa8:	693b      	ldr	r3, [r7, #16]
+ 8000faa:	b29b      	uxth	r3, r3
+ 8000fac:	1ad3      	subs	r3, r2, r3
+ 8000fae:	b298      	uxth	r0, r3
+ 8000fb0:	68bb      	ldr	r3, [r7, #8]
+ 8000fb2:	b299      	uxth	r1, r3
  8000fb4:	68fb      	ldr	r3, [r7, #12]
- 8000fb6:	885a      	ldrh	r2, [r3, #2]
- 8000fb8:	68fb      	ldr	r3, [r7, #12]
- 8000fba:	88db      	ldrh	r3, [r3, #6]
- 8000fbc:	085b      	lsrs	r3, r3, #1
- 8000fbe:	b29b      	uxth	r3, r3
- 8000fc0:	4413      	add	r3, r2
+ 8000fb6:	b29a      	uxth	r2, r3
+ 8000fb8:	693b      	ldr	r3, [r7, #16]
+ 8000fba:	b29b      	uxth	r3, r3
+ 8000fbc:	4413      	add	r3, r2
+ 8000fbe:	b29a      	uxth	r2, r3
+ 8000fc0:	68bb      	ldr	r3, [r7, #8]
  8000fc2:	b29b      	uxth	r3, r3
- 8000fc4:	2200      	movs	r2, #0
- 8000fc6:	9200      	str	r2, [sp, #0]
- 8000fc8:	4622      	mov	r2, r4
- 8000fca:	f000 fab8 	bl	800153e <lcd_draw_line>
+ 8000fc4:	2400      	movs	r4, #0
+ 8000fc6:	9400      	str	r4, [sp, #0]
+ 8000fc8:	f000 fab9 	bl	800153e <lcd_draw_line>
                         break;
- 8000fce:	bf00      	nop
+ 8000fcc:	bf00      	nop
         for (int col = 0; col < BRICK_COLS; col++) {
- 8000fd0:	693b      	ldr	r3, [r7, #16]
- 8000fd2:	3301      	adds	r3, #1
- 8000fd4:	613b      	str	r3, [r7, #16]
- 8000fd6:	693b      	ldr	r3, [r7, #16]
- 8000fd8:	2b06      	cmp	r3, #6
- 8000fda:	f77f af6f 	ble.w	8000ebc <draw_bricks+0x14>
+ 8000fce:	69bb      	ldr	r3, [r7, #24]
+ 8000fd0:	3301      	adds	r3, #1
+ 8000fd2:	61bb      	str	r3, [r7, #24]
+ 8000fd4:	69bb      	ldr	r3, [r7, #24]
+ 8000fd6:	2b06      	cmp	r3, #6
+ 8000fd8:	f77f af70 	ble.w	8000ebc <draw_bricks+0x14>
     for (int row = 0; row < BRICK_ROWS; row++) {
- 8000fde:	697b      	ldr	r3, [r7, #20]
- 8000fe0:	3301      	adds	r3, #1
- 8000fe2:	617b      	str	r3, [r7, #20]
- 8000fe4:	697b      	ldr	r3, [r7, #20]
- 8000fe6:	2b04      	cmp	r3, #4
- 8000fe8:	f77f af65 	ble.w	8000eb6 <draw_bricks+0xe>
+ 8000fdc:	69fb      	ldr	r3, [r7, #28]
+ 8000fde:	3301      	adds	r3, #1
+ 8000fe0:	61fb      	str	r3, [r7, #28]
+ 8000fe2:	69fb      	ldr	r3, [r7, #28]
+ 8000fe4:	2b04      	cmp	r3, #4
+ 8000fe6:	f77f af66 	ble.w	8000eb6 <draw_bricks+0xe>
                 }
             }
         }
     }
 }
+ 8000fea:	bf00      	nop
  8000fec:	bf00      	nop
- 8000fee:	bf00      	nop
- 8000ff0:	371c      	adds	r7, #28
- 8000ff2:	46bd      	mov	sp, r7
- 8000ff4:	bd90      	pop	{r4, r7, pc}
+ 8000fee:	3724      	adds	r7, #36	@ 0x24
+ 8000ff0:	46bd      	mov	sp, r7
+ 8000ff2:	bd90      	pop	{r4, r7, pc}
 
-08000ff6 <draw_paddle>:
+08000ff4 <draw_paddle>:
 
 static void draw_paddle(const Paddle *paddle) {
- 8000ff6:	b590      	push	{r4, r7, lr}
- 8000ff8:	b085      	sub	sp, #20
- 8000ffa:	af02      	add	r7, sp, #8
- 8000ffc:	6078      	str	r0, [r7, #4]
+ 8000ff4:	b590      	push	{r4, r7, lr}
+ 8000ff6:	b085      	sub	sp, #20
+ 8000ff8:	af02      	add	r7, sp, #8
+ 8000ffa:	6078      	str	r0, [r7, #4]
     lcd_fill(paddle->x, paddle->y, paddle->x + paddle->width, paddle->y + paddle->height, paddle->color);
- 8000ffe:	687b      	ldr	r3, [r7, #4]
- 8001000:	8818      	ldrh	r0, [r3, #0]
- 8001002:	687b      	ldr	r3, [r7, #4]
- 8001004:	8859      	ldrh	r1, [r3, #2]
- 8001006:	687b      	ldr	r3, [r7, #4]
- 8001008:	881a      	ldrh	r2, [r3, #0]
- 800100a:	687b      	ldr	r3, [r7, #4]
- 800100c:	88db      	ldrh	r3, [r3, #6]
- 800100e:	4413      	add	r3, r2
- 8001010:	b29c      	uxth	r4, r3
- 8001012:	687b      	ldr	r3, [r7, #4]
- 8001014:	885a      	ldrh	r2, [r3, #2]
- 8001016:	687b      	ldr	r3, [r7, #4]
- 8001018:	891b      	ldrh	r3, [r3, #8]
- 800101a:	4413      	add	r3, r2
- 800101c:	b29a      	uxth	r2, r3
- 800101e:	687b      	ldr	r3, [r7, #4]
- 8001020:	895b      	ldrh	r3, [r3, #10]
- 8001022:	9300      	str	r3, [sp, #0]
- 8001024:	4613      	mov	r3, r2
- 8001026:	4622      	mov	r2, r4
- 8001028:	f000 fa3c 	bl	80014a4 <lcd_fill>
+ 8000ffc:	687b      	ldr	r3, [r7, #4]
+ 8000ffe:	8818      	ldrh	r0, [r3, #0]
+ 8001000:	687b      	ldr	r3, [r7, #4]
+ 8001002:	8859      	ldrh	r1, [r3, #2]
+ 8001004:	687b      	ldr	r3, [r7, #4]
+ 8001006:	881a      	ldrh	r2, [r3, #0]
+ 8001008:	687b      	ldr	r3, [r7, #4]
+ 800100a:	88db      	ldrh	r3, [r3, #6]
+ 800100c:	4413      	add	r3, r2
+ 800100e:	b29c      	uxth	r4, r3
+ 8001010:	687b      	ldr	r3, [r7, #4]
+ 8001012:	885a      	ldrh	r2, [r3, #2]
+ 8001014:	687b      	ldr	r3, [r7, #4]
+ 8001016:	891b      	ldrh	r3, [r3, #8]
+ 8001018:	4413      	add	r3, r2
+ 800101a:	b29a      	uxth	r2, r3
+ 800101c:	687b      	ldr	r3, [r7, #4]
+ 800101e:	895b      	ldrh	r3, [r3, #10]
+ 8001020:	9300      	str	r3, [sp, #0]
+ 8001022:	4613      	mov	r3, r2
+ 8001024:	4622      	mov	r2, r4
+ 8001026:	f000 fa3d 	bl	80014a4 <lcd_fill>
 }
- 800102c:	bf00      	nop
- 800102e:	370c      	adds	r7, #12
- 8001030:	46bd      	mov	sp, r7
- 8001032:	bd90      	pop	{r4, r7, pc}
+ 800102a:	bf00      	nop
+ 800102c:	370c      	adds	r7, #12
+ 800102e:	46bd      	mov	sp, r7
+ 8001030:	bd90      	pop	{r4, r7, pc}
 
-08001034 <draw_ball>:
+08001032 <draw_ball>:
 
 static void draw_ball(const Ball *ball) {
- 8001034:	b590      	push	{r4, r7, lr}
- 8001036:	b085      	sub	sp, #20
- 8001038:	af02      	add	r7, sp, #8
- 800103a:	6078      	str	r0, [r7, #4]
+ 8001032:	b590      	push	{r4, r7, lr}
+ 8001034:	b085      	sub	sp, #20
+ 8001036:	af02      	add	r7, sp, #8
+ 8001038:	6078      	str	r0, [r7, #4]
     lcd_draw_circle(ball->x, ball->y, ball->color, ball->radius, 1); // Filled circle
- 800103c:	687b      	ldr	r3, [r7, #4]
- 800103e:	f9b3 3000 	ldrsh.w	r3, [r3]
- 8001042:	4618      	mov	r0, r3
- 8001044:	687b      	ldr	r3, [r7, #4]
- 8001046:	f9b3 3002 	ldrsh.w	r3, [r3, #2]
- 800104a:	4619      	mov	r1, r3
- 800104c:	687b      	ldr	r3, [r7, #4]
- 800104e:	899a      	ldrh	r2, [r3, #12]
- 8001050:	687b      	ldr	r3, [r7, #4]
- 8001052:	7b9b      	ldrb	r3, [r3, #14]
- 8001054:	461c      	mov	r4, r3
- 8001056:	2301      	movs	r3, #1
- 8001058:	9300      	str	r3, [sp, #0]
- 800105a:	4623      	mov	r3, r4
- 800105c:	f000 fe5f 	bl	8001d1e <lcd_draw_circle>
- 8001060:	bf00      	nop
- 8001062:	370c      	adds	r7, #12
- 8001064:	46bd      	mov	sp, r7
- 8001066:	bd90      	pop	{r4, r7, pc}
+ 800103a:	687b      	ldr	r3, [r7, #4]
+ 800103c:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 8001040:	4618      	mov	r0, r3
+ 8001042:	687b      	ldr	r3, [r7, #4]
+ 8001044:	f9b3 3002 	ldrsh.w	r3, [r3, #2]
+ 8001048:	4619      	mov	r1, r3
+ 800104a:	687b      	ldr	r3, [r7, #4]
+ 800104c:	899a      	ldrh	r2, [r3, #12]
+ 800104e:	687b      	ldr	r3, [r7, #4]
+ 8001050:	7b9b      	ldrb	r3, [r3, #14]
+ 8001052:	461c      	mov	r4, r3
+ 8001054:	2301      	movs	r3, #1
+ 8001056:	9300      	str	r3, [sp, #0]
+ 8001058:	4623      	mov	r3, r4
+ 800105a:	f000 fe60 	bl	8001d1e <lcd_draw_circle>
+ 800105e:	bf00      	nop
+ 8001060:	370c      	adds	r7, #12
+ 8001062:	46bd      	mov	sp, r7
+ 8001064:	bd90      	pop	{r4, r7, pc}
+	...
 
 08001068 <MX_GPIO_Init>:
         * Output
