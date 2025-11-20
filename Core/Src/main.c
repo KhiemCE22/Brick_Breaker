@@ -139,21 +139,12 @@ int main(void)
 			if (!game_state.show_potentiometer_prompt && timer2_flag == 1) { // Game Update over ~50 FPS
 				step_world(&game_state, 0.02f); // Assuming dt = 0.02 seconds for ~50 FPS
 				timer2_flag = 0;
-				// debug
-			    char vx_str[16];
-			    char vy_str[16];
-
-			    snprintf(vx_str, sizeof(vx_str), "%d", game_state.ball.dx);
-			    snprintf(vy_str, sizeof(vy_str), "%d", game_state.ball.dy);
-			    lcd_show_string_center(0, 164 - 8, vx_str, WHITE, 0, 16, 1);
-			    lcd_show_string_center(0, 164 + 8, vy_str, WHITE, 0, 16, 1);
-			    //end debug
 				game_update_screen(&game_state); // only updates changed components like paddle  and ball
 			}
 			if (game_state.show_potentiometer_prompt && button_count[2] == 1) { // Start Game after showing prompt, 
 																				// use potentiometer check  in the future
 				game_state.show_potentiometer_prompt = 0;
-				initialize_ball_velocity(&game_state.ball);		
+				initialize_ball_velocity(&game_state.balls[0]);		
 				game_draw_initial_scene(&game_state);
 			}
 
