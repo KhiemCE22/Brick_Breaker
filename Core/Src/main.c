@@ -114,6 +114,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM4_Init();
   MX_ADC1_Init();
+  MX_TIM13_Init();
   /* USER CODE BEGIN 2 */
 	system_init();
 	timer2_set(20); // ~50 FPS ~ 20ms
