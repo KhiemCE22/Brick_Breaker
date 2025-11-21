@@ -26,3 +26,5 @@ void step_world(GameState *state, float dt);
 
 // for future paddle mechanics 
 void apply_spin_to_ball(Ball *ball, int16_t paddle_dx);
+uint16_t update_potentiometer_position(void);
+void update_paddle_position(GameState *state, uint16_t sensor_chiet_ap);

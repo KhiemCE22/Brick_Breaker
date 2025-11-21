@@ -36,6 +36,7 @@
 #include "picture.h"
 #include "game_ui.h"
 #include "game_logic.h"
+#include "sensor.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -64,6 +65,7 @@
 
 /* USER CODE BEGIN PV */
 GameState game_state;
+uint16_t sensor_chiet_ap = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -124,6 +126,13 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
+
+		if(timer4_flag == 1)
+		{
+			sensor_read();
+			sensor_chiet_ap = sensor_get_potentiometer();
+			timer4_flag = 0;
+		}
 		button_scan();
 
 		switch (game_state.status) {
@@ -137,6 +146,7 @@ int main(void)
 			break;
 		case GAME_PLAYING:
 			if (!game_state.show_potentiometer_prompt && timer2_flag == 1) { // Game Update over ~50 FPS
+				update_paddle_position(&game_state, sensor_chiet_ap);
 				step_world(&game_state, 0.02f); // Assuming dt = 0.02 seconds for ~50 FPS
 				timer2_flag = 0;
 				game_update_screen(&game_state); // only updates changed components like paddle  and ball
@@ -234,8 +244,10 @@ void system_init() {
 
 	lcd_init();
 	ds3231_init();
-
+	sensor_init();
 	timer2_init();
+	timer4_init();
+	timer4_set(10);
 }
 /* USER CODE END 4 */
 

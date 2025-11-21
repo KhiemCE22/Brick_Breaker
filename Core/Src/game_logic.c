@@ -2,6 +2,52 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "sensor.h"
+#include "buzzer.h"
+#include "software_timer.h"
+
+//void buzzer_game()
+//{
+//	int volume = 100;
+//	buzzer_set_volume(volume);
+//	while(volume > 0){
+//		if(timer4_flag == 1)
+//		{
+//			volume -= 1;
+//			buzzer_set_volume(volume);
+//		}
+//	}
+//}
+
+//uint16_t update_potentiometer_position()
+//{
+//	sensor_read();
+//	return sensor_get_potentiometer();
+//}
+
+// Hàm cập nhật vị trí paddle từ cảm biến chiết áp
+void update_paddle_position(GameState *state, uint16_t sensor_chiet_ap)
+{
+    // Đọc giá trị 0–4095 từ chiết áp
+//    sensor_chiet_ap = sensor_get_potentiometer();
+//    char buf[10];
+//    snprintf(buf, sizeof(buf), "%u", sensor_chiet_ap);
+//    lcd_show_string_center(0, 165, buf, WHITE, 0, 16, 1);
+
+    // Giới hạn giá trị để tránh sai số ADC
+    if (sensor_chiet_ap > 4095) sensor_chiet_ap = 4095;
+
+    // Tính vị trí paddle theo tỷ lệ
+    float ratio = (float)sensor_chiet_ap / 4095.0f;
+
+    // Paddle không được vượt ngoài màn hình
+    state->paddle.x = ratio * (SCREEN_WIDTH - state->paddle.width);
+
+    // Làm tròn
+    state->paddle.x = (int16_t)state->paddle.x;
+}
+
+
 uint8_t circle_aabb_overlap(int16_t cx, int16_t cy, uint16_t radius,
                           uint16_t rx, uint16_t ry,
                           uint16_t rw, uint16_t rh) {
@@ -143,13 +189,17 @@ void step_world(GameState *state, float dt) {
                 // optionally play sound
             }
             // paddle collision
+//            if (resolve_ball_paddle(b, &state->paddle))
+//            {
+//            	buzzer_game();
+//            }
             resolve_ball_paddle(b, &state->paddle);
-
             // brick collisions: iterate bricks and call resolve_ball_brick(b, brick)
             for (int row = 0; row < BRICK_ROWS; row++) {
                 for (int col = 0; col < BRICK_COLS; col++) {
                     Brick *brick = &state->bricks[row][col];
                     if (resolve_ball_brick(b, brick)) {
+//                    	buzzer_game();
                         game_erase_brick(brick);
                         state->score += 10;
                         // special handling:
