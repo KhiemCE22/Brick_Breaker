@@ -65,6 +65,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 
 	if (htim->Instance == TIM4) {
+		buzzer_tick_ms();
 		if (timer4_counter > 0) {
 			timer4_counter--;
 			if (timer4_counter == 0) {
@@ -73,7 +74,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			}
 		}
 
-		led_7seg_display();
 	}
 }
 

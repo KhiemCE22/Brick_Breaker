@@ -6,23 +6,24 @@
 #include "buzzer.h"
 #include "software_timer.h"
 
-//void buzzer_game()
-//{
-//	int volume = 100;
-//	buzzer_set_volume(volume);
-//	while(volume > 0){
-//		if(timer4_flag == 1)
-//		{
-//			volume -= 1;
-//			buzzer_set_volume(volume);
-//		}
-//	}
-//}
+uint16_t pot_center = 2048;   // default giữa
+uint8_t pot_center_initialized = 0;
 
-//uint16_t update_potentiometer_position()
+void buzzer_game(int volume)
+{
+    for (int v = volume; v >= 0; v--)
+    {
+        buzzer_set_volume(v);   // giảm volume dần
+        HAL_Delay(1);          // tốc độ giảm (1 ms mỗi bước)
+    }
+    buzzer_set_volume(0);
+}
+
+//void delay_us(uint32_t us)
 //{
-//	sensor_read();
-//	return sensor_get_potentiometer();
+//    uint32_t cycles = (SystemCoreClock / 1000000) * us;
+//    uint32_t start = DWT->CYCCNT;
+//    while (DWT->CYCCNT - start < cycles);
 //}
 
 // Hàm cập nhật vị trí paddle từ cảm biến chiết áp
@@ -189,17 +190,17 @@ void step_world(GameState *state, float dt) {
                 // optionally play sound
             }
             // paddle collision
-//            if (resolve_ball_paddle(b, &state->paddle))
-//            {
-//            	buzzer_game();
-//            }
+           if (resolve_ball_paddle(b, &state->paddle))
+          {
+        	   buzzer_start_fade(50);
+          }
             resolve_ball_paddle(b, &state->paddle);
             // brick collisions: iterate bricks and call resolve_ball_brick(b, brick)
             for (int row = 0; row < BRICK_ROWS; row++) {
                 for (int col = 0; col < BRICK_COLS; col++) {
                     Brick *brick = &state->bricks[row][col];
                     if (resolve_ball_brick(b, brick)) {
-//                    	buzzer_game();
+                    	buzzer_start_fade(50);
                         game_erase_brick(brick);
                         state->score += 10;
                         // special handling:

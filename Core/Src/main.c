@@ -37,6 +37,7 @@
 #include "game_ui.h"
 #include "game_logic.h"
 #include "sensor.h"
+#include "buzzer.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -100,6 +101,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
+//  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
   /* USER CODE BEGIN SysInit */
 
@@ -126,6 +128,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+//	buzzer_game(50);
 	while (1) {
 
 		if(timer4_flag == 1)
@@ -134,6 +137,7 @@ int main(void)
 			sensor_chiet_ap = sensor_get_potentiometer();
 			timer4_flag = 0;
 		}
+
 		button_scan();
 
 		switch (game_state.status) {
@@ -143,6 +147,7 @@ int main(void)
 				game_state.show_potentiometer_prompt = 1;
 				game_state.status = GAME_PLAYING;
 				game_draw_initial_scene(&game_state);
+//				buzzer_intro();
 			}
 			break;
 		case GAME_PLAYING:
@@ -246,9 +251,10 @@ void system_init() {
 	lcd_init();
 	ds3231_init();
 	sensor_init();
+	buzzer_init();
 	timer2_init();
 	timer4_init();
-	timer4_set(10);
+	timer4_set(1);
 }
 /* USER CODE END 4 */
 
