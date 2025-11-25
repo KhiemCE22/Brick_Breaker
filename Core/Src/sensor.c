@@ -7,15 +7,15 @@
 #include "adc.h"
 
 /* Variables */
-uint16_t adc_receive[5];  // hoặc uint16_t adc_receive[1];
+uint16_t adc_receive[1];  // hoặc uint16_t adc_receive[1];
 
 /* Functions */
 void sensor_init() {
-	HAL_ADC_Start_DMA(&hadc1, (void*) adc_receive, 5);
+	HAL_ADC_Start_DMA(&hadc1, (void*) adc_receive, 1);
 }
 
 void sensor_read() {
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adc_receive, 5);
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*) adc_receive, 1);
 }
 
 //uint16_t sensor_get_light() {
@@ -28,7 +28,7 @@ uint16_t pot_get_median()
 
     // Lấy 5 mẫu liên tiếp từ DMA buffer
     for (int i = 0; i < 5; i++) {
-        samples[i] = adc_receive[3];
+        samples[i] = adc_receive[0];
     }
 
     // Sắp xếp 5 phần tử (bubble sort)

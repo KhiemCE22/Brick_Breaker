@@ -174,7 +174,7 @@ void game_handle_paddle_buttons(GameState *state) {
     // button_count is updated by button_scan(); >0 means button is pressed
     extern uint16_t button_count[16];
 
-    if (button_count[8] > 0) {
+    if (button_clicked(8) > 0) {
         // move left
         if (state->paddle.x > state->paddle.speed)
             state->paddle.x -= state->paddle.speed;
@@ -182,7 +182,7 @@ void game_handle_paddle_buttons(GameState *state) {
             state->paddle.x = 0;
     }
 
-    if (button_count[9] > 0) {
+    if (button_clicked(9) > 0) {
         // move right
         uint16_t max_x = SCREEN_WIDTH - state->paddle.width;
         if (state->paddle.x + state->paddle.speed < max_x)

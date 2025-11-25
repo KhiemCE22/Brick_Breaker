@@ -1,0 +1,4 @@
+../Core/Src/sensor.c:13:6:sensor_init	8	static
+../Core/Src/sensor.c:17:6:sensor_read	8	static
+../Core/Src/sensor.c:25:10:pot_get_median	32	static
+../Core/Src/sensor.c:49:10:sensor_get_potentiometer	16	static

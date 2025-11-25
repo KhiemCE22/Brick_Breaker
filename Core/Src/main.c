@@ -101,7 +101,6 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-//  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
   /* USER CODE BEGIN SysInit */
 
@@ -117,6 +116,7 @@ int main(void)
   MX_TIM4_Init();
   MX_ADC1_Init();
   MX_TIM13_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 	system_init();
 	timer2_set(20); // ~50 FPS ~ 20ms
@@ -137,17 +137,20 @@ int main(void)
 			sensor_chiet_ap = sensor_get_potentiometer();
 			timer4_flag = 0;
 		}
-
-		button_scan();
+		if(timer3_flag == 1)
+		{
+			button_scan();
+			timer3_flag = 0;
+		}
 
 		switch (game_state.status) {
 		case GAME_START_SCREEN:
-			if (button_count[0] == 1) { // Change from Intro to Playing Screen
+			if (button_clicked(0) == 1) { // Change from Intro to Playing Screen
 				game_init_state(&game_state);
 				game_state.show_potentiometer_prompt = 1;
 				game_state.status = GAME_PLAYING;
 				game_draw_initial_scene(&game_state);
-//				buzzer_intro();
+				buzzer_intro_start();  // bắt đầu intro
 			}
 			break;
 		case GAME_PLAYING:
@@ -157,29 +160,29 @@ int main(void)
 				timer2_flag = 0;
 				game_update_screen(&game_state); // only updates changed components like paddle  and ball
 			}
-			if (game_state.show_potentiometer_prompt && button_count[2] == 1) { // Start Game after showing prompt, 
+			if (game_state.show_potentiometer_prompt && button_clicked(2) == 1) { // Start Game after showing prompt,
 																				// use potentiometer check  in the future
 				game_state.show_potentiometer_prompt = 0;
 				initialize_ball_velocity(&game_state.balls[0]);		
 				game_draw_initial_scene(&game_state);
 			}
 
-			if (button_count[4] == 1) { // Pause Button
+			if (button_clicked(4) == 1) { // Pause Button
 				game_state.status = GAME_PAUSED;
 				game_draw_pause_screen(&game_state);
-			} else if (button_count[5] == 1) { // Game Over Button
+			} else if (button_clicked(5) == 1) { // Game Over Button
 				game_state.status = GAME_OVER;
 				game_draw_game_over_screen(&game_state);
 			}
 			break;
 		case GAME_PAUSED:
-			if (button_count[4] == 1) { // Resume Button
+			if (button_clicked(4) == 1) { // Resume Button
 				game_state.status = GAME_PLAYING;
 				game_draw_initial_scene(&game_state);
 			}
 			break;
 		case GAME_OVER:
-			if (button_count[5] == 1) { // Restart Game from Game Over
+			if (button_clicked(5) == 1) { // Restart Game from Game Over
 				game_init_state(&game_state);
 				game_state.status = GAME_PLAYING;
 				game_state.show_potentiometer_prompt = 1;
@@ -253,7 +256,9 @@ void system_init() {
 	sensor_init();
 	buzzer_init();
 	timer2_init();
+	timer3_init();
 	timer4_init();
+	timer3_set(20);
 	timer4_set(1);
 }
 /* USER CODE END 4 */
