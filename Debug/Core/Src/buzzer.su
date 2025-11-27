@@ -1,9 +1,0 @@
-../Core/Src/buzzer.c:24:6:buzzer_init	8	static
-../Core/Src/buzzer.c:28:6:buzzer_set_volume	16	static
-../Core/Src/buzzer.c:33:6:buzzer_start_fade	16	static
-../Core/Src/buzzer.c:42:6:buzzer_tick_ms	8	static
-../Core/Src/buzzer.c:53:6:buzzer_set_frequency	24	static
-../Core/Src/buzzer.c:69:6:buzzer_play_note	16	static
-../Core/Src/buzzer.c:77:6:buzzer_intro	8	static
-../Core/Src/buzzer.c:110:6:buzzer_intro_start	4	static
-../Core/Src/buzzer.c:121:6:buzzer_intro_tick	8	static
