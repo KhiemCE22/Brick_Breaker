@@ -164,9 +164,13 @@ uint8_t resolve_ball_wall(Ball *ball) {
     return collided;
 }
 
-void initialize_ball_velocity(Ball *ball) {
+void initialize_ball_velocity(Ball *ball, Paddle *paddle) {
     // Start with a fixed angle upwards
-    ball->dx = 0.0f;
+    float paddle_center = paddle->x + paddle->width / 2.0f;
+    float screen_center = SCREEN_WIDTH / 2.0f;
+    float max_offset = (SCREEN_WIDTH - paddle->width) / 2.0f;
+    float normalized_offset = (paddle_center - screen_center) / max_offset; // Range: -1.0 to 1.0
+    ball->dx = -normalized_offset * 60.0f; // Max horizontal speed of 60
     ball->dy = -V_MIN;
 }
 
@@ -190,10 +194,10 @@ void step_world(GameState *state, float dt) {
                 // optionally play sound
             }
             // paddle collision
-           if (resolve_ball_paddle(b, &state->paddle))
-          {
-        	   buzzer_start_fade(50);
-          }
+            if (resolve_ball_paddle(b, &state->paddle))
+            {
+                buzzer_start_fade(50);
+            }
             resolve_ball_paddle(b, &state->paddle);
             // brick collisions: iterate bricks and call resolve_ball_brick(b, brick)
             for (int row = 0; row < BRICK_ROWS; row++) {
@@ -209,6 +213,7 @@ void step_world(GameState *state, float dt) {
                         } else if (brick->special == BRICK_SPECIAL_PLUS) {
                             apply_plus_powerup(state);
                         }
+                        game_update_ui_bar(state -> score, state -> lives, state -> level);
                     }
                 }
             }
@@ -234,6 +239,7 @@ void step_world(GameState *state, float dt) {
     // If not advancing level, continue to handle balls out-of-bounds
     if (state->ball_count == 0) {
         state->lives--;
+        game_update_ui_bar(state->lives, state->score, state->level);
         if (state->lives == 0) {
             state->status = GAME_OVER;
             game_draw_game_over_screen(state);

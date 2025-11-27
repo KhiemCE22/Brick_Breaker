@@ -54,11 +54,13 @@ void draw_potentiometer_prompt(void) {
 /**
  * @brief Initializes the game state for a new game or level.
  */
-void game_init_state(GameState *state) {
+void game_init_state(GameState *state, uint16_t sensor_potentiometer) {
     // 1. Initialize Paddle
     state->paddle.width = 70;
     state->paddle.height = 10;
-    state->paddle.x = (SCREEN_WIDTH - state->paddle.width) / 2.0f;
+
+    // Position paddle based on potentiometer reading
+    state->paddle.x = (sensor_potentiometer / 4095.0f) * (SCREEN_WIDTH - state->paddle.width);
     state->paddle.prev_x = state->paddle.x;
     state->paddle.y = SCREEN_HEIGHT - state->paddle.height - 5;
     state->paddle.color = WHITE;
@@ -75,10 +77,16 @@ void game_init_state(GameState *state) {
     state->balls[0].prev_x = state->balls[0].x;
     state->balls[0].y = state->paddle.y - state->balls[0].radius - 1;
     state->balls[0].prev_y = state->balls[0].y;
-    state->balls[0].dx = 0;  // Initial velocity
-    state->balls[0].dy = -60;
+    // initialize vertical velocity based on position of paddle
+    // vertical velocity is opposite direction to paddle position
+    float paddle_center = state->paddle.x + state->paddle.width / 2.0f;
+    float screen_center = SCREEN_WIDTH / 2.0f;
+    float max_offset = (SCREEN_WIDTH - state->paddle.width) / 2.0f;
+    float normalized_offset = (paddle_center - screen_center) / max_offset; // Range: -1.0 to 1.0
+    state->balls[0].dx = -normalized_offset * 60.0f; // Max horizontal speed of 60
+    
+    state->balls[0].dy = -100;
     state->balls[0].color = WHITE;
-
     // 3. Initialize Score and Lives
     state->score = 0;
     state->lives = MAX_LIVES;
@@ -123,7 +131,7 @@ void game_update_screen(GameState *state) {
 		game_update_ball(&state->balls[i]);
 	}
     game_update_paddle(&state->paddle);
-    game_update_ui_bar(state->score, state->lives, state->level);
+    // game_update_ui_bar(state->score, state->lives, state->level);
     
     // Erase INCOMING bricks before updating their position (to avoid visual artifacts)
     for (int row = 0; row < BRICK_ROWS; row++) {

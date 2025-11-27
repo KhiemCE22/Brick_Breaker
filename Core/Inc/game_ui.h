@@ -91,13 +91,14 @@ typedef struct {
     int16_t brick_drop_offset; // negative while bricks are dropping in
     uint8_t brick_dropping;
     GameStatus status;
+    uint16_t initial_potentiometer_value;
     uint8_t show_potentiometer_prompt;
 } GameState;
 
 // --- Function Prototypes ---
 
 // Initialization
-void game_init_state(GameState *state);
+void game_init_state(GameState *state, uint16_t sensor_potentiometer);
 
 // Start Screen
 void game_draw_start_screen(void);

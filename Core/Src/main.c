@@ -39,6 +39,7 @@
 #include "sensor.h"
 #include "buzzer.h"
 #include <stdio.h>
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -146,11 +147,14 @@ int main(void)
 		switch (game_state.status) {
 		case GAME_START_SCREEN:
 			if (button_clicked(0) == 1) { // Change from Intro to Playing Screen
-				game_init_state(&game_state);
+				game_init_state(&game_state, sensor_chiet_ap);
 				game_state.show_potentiometer_prompt = 1;
+				game_state.initial_potentiometer_value = sensor_chiet_ap; // Store initial pot value
 				game_state.status = GAME_PLAYING;
 				game_draw_initial_scene(&game_state);
 				buzzer_intro_start();  // bắt đầu intro
+				button_clicked(4);
+				button_clicked(5);
 			}
 			break;
 		case GAME_PLAYING:
@@ -159,11 +163,13 @@ int main(void)
 				step_world(&game_state, 0.02f); // Assuming dt = 0.02 seconds for ~50 FPS
 				timer2_flag = 0;
 				game_update_screen(&game_state); // only updates changed components like paddle  and ball
+				if (game_state.show_potentiometer_prompt)
+					game_state.initial_potentiometer_value = sensor_chiet_ap;
 			}
-			if (game_state.show_potentiometer_prompt && button_clicked(2) == 1) { // Start Game after showing prompt,
-																				// use potentiometer check  in the future
+			// If prompt is shown, check for potentiometer movement to start the game
+			if (game_state.show_potentiometer_prompt && abs(sensor_chiet_ap - game_state.initial_potentiometer_value) > 50) {
 				game_state.show_potentiometer_prompt = 0;
-				initialize_ball_velocity(&game_state.balls[0]);		
+				initialize_ball_velocity(&game_state.balls[0], &game_state.paddle);
 				game_draw_initial_scene(&game_state);
 			}
 
@@ -179,14 +185,17 @@ int main(void)
 			if (button_clicked(4) == 1) { // Resume Button
 				game_state.status = GAME_PLAYING;
 				game_draw_initial_scene(&game_state);
+				button_clicked(5); // Clear Game Over Button State
 			}
 			break;
 		case GAME_OVER:
 			if (button_clicked(5) == 1) { // Restart Game from Game Over
-				game_init_state(&game_state);
+				game_init_state(&game_state, sensor_chiet_ap);
 				game_state.status = GAME_PLAYING;
 				game_state.show_potentiometer_prompt = 1;
 				game_draw_initial_scene(&game_state);
+				button_clicked(4); // Clear Pause Button State
+				game_state.initial_potentiometer_value = sensor_chiet_ap;
 			}
 			break;
 		default:

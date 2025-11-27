@@ -1,85 +1,59 @@
-# Game UI Module (`game_ui`)
+# Brick Breaker Game on STM32
 
-## Overview
+This is a classic Brick Breaker game implemented on an BKIT-ARM4 board. The project utilizes various peripherals to create an interactive and engaging gaming experience.
 
-This module is responsible for all rendering aspects of the Brick Breaker game. It handles drawing the initial game scene, updating object positions on the screen, and displaying various game state screens like "Pause" and "Game Over".
+## Hardware Requirements
 
-The logic part of the application should call functions from this module to reflect changes in the game state on the display.
+-   **BKIT-ARM4 Board:** The main microcontroller board.
+-   **LCD Display:** For rendering the game graphics.
+-   **Potentiometer:** Used to control the paddle's movement.
+-   **Buttons:** For game interactions like starting, pausing, and restarting the game.
+-   **Buzzer:** To provide audio feedback during the game.
 
-## Core Data Structures
+## Features
 
-The entire state of the game that is relevant for the UI is encapsulated in the `GameState` struct.
+-   **Classic Brick Breaker Gameplay:** Destroy all the bricks on the screen with a bouncing ball.
+-   **Paddle Control:** Use a potentiometer to move the paddle left and right.
+-   **Multiple Game States:** The game includes a start screen, playing state, paused state, and a game-over screen.
+-   **Score and Lives:** Keep track of your score and the number of lives remaining.
+-   **Audio Feedback:** A buzzer provides sound effects for game events.
+-   **Special Bricks:** Some bricks have special effects when destroyed.
 
-```c
-// From: Core/Inc/game_ui.h
+## How to Play
 
-typedef struct {
-    Brick bricks[BRICK_ROWS][BRICK_COLS];
-    Ball ball;
-    Paddle paddle;
-    uint32_t score;
-    uint8_t lives;
-    GameStatus status;
-    uint8_t show_potentiometer_prompt;
-} GameState;
-```
+1.  **Start Game:** Press `BUTTON 1` on the start screen to begin the game.
+2.  **Control the Paddle:** Rotate the potentiometer to move the paddle horizontally at the bottom of the screen.
+3.  **Gameplay:** Use the paddle to hit the ball and destroy the bricks.
+4.  **Pause/Resume:** Press `BUTTON 4` to pause the game and press it again to resume.
+5.  **Game Over:** The game ends when you lose all your lives. You can restart the game by pressing `BUTTON 5`.
 
--   `bricks`: A 2D array representing the grid of bricks.
--   `ball`: The game ball object.
--   `paddle`: The player's paddle object.
--   `score`: The current score.
--   `lives`: The number of lives remaining.
--   `status`: The current status of the game (see Game States below).
--   `show_potentiometer_prompt`: A flag to display a prompt for the player to use the potentiometer.
 
-## Game States (`GameStatus`)
 
-The `GameStatus` enum defines the different states the game can be in, each with a corresponding UI representation.
+## Project Structure
 
--   `GAME_START_SCREEN`: The initial screen when the game loads.
--   `GAME_PLAYING`: The main game screen where gameplay occurs. The UI shows the paddle, ball, bricks, score, and lives.
--   `GAME_PAUSED`: A pause menu overlay is displayed, showing the "PAUSED" message and current score/lives.
--   `GAME_OVER`: A "Game Over" screen is displayed with the final score.
+The project is organized into the following main directories:
 
-## UI Rendering Functions
+-   `Core/`: Contains the main application source code.
+    -   `Inc/`: Header files (`.h`).
+        -   `main.h`: Main header file.
+        -   `game_logic.h`: Contains the core game logic.
+        -   `game_ui.h`: Handles the game's user interface and rendering.
+        -   Other peripheral driver headers.
+    -   `Src/`: Source files (`.c`).
+        -   `main.c`: The main program entry point and game loop.
+        -   `game_logic.c`: Implementation of the game logic.
+        -   `game_ui.c`: Implementation of the UI rendering functions.
+        -   Other peripheral driver source files.
+-   `Drivers/`: Contains the STM32 HAL drivers and CMSIS files.
+-   `Startup/`: The startup file for the STM32 microcontroller.
 
-The game logic should primarily interact with the following functions to render the UI.
+## Video Demo
 
--   `void game_init_state(GameState *state)`: Initializes a `GameState` struct to the default starting state for a new game.
--   `void game_draw_initial_scene(const GameState *state)`: Performs a full redraw of the game screen. This should be called when the game starts or when resuming from a state that requires clearing the screen (e.g., after the pause menu).
--   `void game_update_screen(GameState *state)`: Performs an efficient, partial update of the screen by erasing the ball and paddle at their previous positions and redrawing them at their new positions. This should be called in the main game loop for smooth animation.
--   `void game_draw_pause_screen(const GameState *state)`: Draws the pause menu.
--   `void game_clear_pause_screen(const GameState *state)`: Clears the pause menu and redraws the main game scene.
--   `void game_draw_game_over_screen(const GameState *state)`: Draws the game over screen.
--   `void game_erase_brick(const Brick* brick)`: Erases a single brick from the screen. This should be called when a brick is destroyed.
+[Watch the video demo here](https://youtu.be/TaV1FcbDuhg)
 
-## Special UI Elements
-
-### Special Bricks (`BrickSpecial`)
-
-Some bricks have special properties, visually indicated as follows:
-
--   `BRICK_SPECIAL_BALL`: The brick is drawn with a white circle inside it.
--   `BRICK_SPECIAL_PLUS`: The brick is drawn with a black, balanced plus sign inside it.
-
-The game logic is responsible for implementing the effects of these special bricks.
-
-### Potentiometer Prompt
-
-When the `show_potentiometer_prompt` flag in `GameState` is set to `1`, a prompt is displayed to the user. It consists of a dashed-line box containing the text:
-```
-ROTATE POTENTIOMETER
-      TO PLAY
-```
-This is intended to be shown at the start of the game to instruct the player on the controls.
-
-## How to Use
-
-1.  Create a `GameState` variable.
-2.  Call `game_init_state()` to set up the initial state.
-3.  Modify the `GameState` struct as the game logic progresses (e.g., updating ball/paddle positions, changing score).
-4.  In the main game loop:
-    -   Update ball and paddle coordinates in the `GameState` struct.
-    -   Call `game_update_screen()` to render the changes.
-5.  When a brick is hit, update its state in the `GameState` struct and call `game_erase_brick()`.
-6.  When the game state changes (e.g., to `GAME_PAUSED`), call the appropriate drawing function (`game_draw_pause_screen`, etc.).
+## Author: DreamTeam CE22
+-   Phan Lê Hậu
+-   Nguyễn Minh Hưng
+-   Nguyễn Văn Huynh
+-   Nguyễn Duy Khiêm
+-   Lê Quang Trưng

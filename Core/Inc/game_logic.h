@@ -7,7 +7,7 @@
 #define V_MAX 220
 #define V_X_MAX 180
 #define K_SPIN 0.18f
-#define CRIT45_SCALE 0.7071f // cos(45°) or sin(45°)
+#define CRIT45_SCALE	 0.7071f // cos(45°) or sin(45°)
 #define CRIT45_FLOOR 2.0f
 
 
@@ -21,7 +21,7 @@ uint8_t circle_aabb_overlap(int16_t cx, int16_t cy, uint16_t radius,
 uint8_t resolve_ball_brick(Ball *ball, Brick *brick);
 uint8_t resolve_ball_paddle(Ball *ball, const Paddle *paddle);
 uint8_t resolve_ball_wall(Ball *ball);
-void initialize_ball_velocity(Ball *ball);
+void initialize_ball_velocity(Ball *ball, Paddle *paddle);
 void step_world(GameState *state, float dt);
 
 // for future paddle mechanics 
